@@ -4,7 +4,7 @@ import React from "react";
 const DetailActivity = () => {
     return (
         <View>
-            <Text>Menu</Text>
+            <Text>Detail</Text>
         </View>
     )
 }
