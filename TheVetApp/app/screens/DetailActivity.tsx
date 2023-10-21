@@ -1,7 +1,7 @@
 import { View, Text, TextInput, Button } from "react-native";
 import React, { useState } from "react";
 import { FIREBASE_DB } from "../../FirebaseConfig";
-import { collection, addDoc } from "firebase/firestore";
+import { collection, setDoc, doc, addDoc } from "firebase/firestore";
 import { RouteProp } from "@react-navigation/native";
 
 type RootStackParamList = {
@@ -25,18 +25,26 @@ const DetailActivity = ({ route }: Props) => {
             alert("Age and weight must be numerical values.");
             return;
         }
-
+    
+        const animalData = {
+            name: name,
+            age: parseInt(age),
+            weight: parseFloat(weight)
+        };
+    
         try {
-            await addDoc(collection(FIREBASE_DB, "animals"), {
-                name: name,
-                age: parseInt(age),
-                weight: parseFloat(weight)
-            });
-            alert("Animal registered successfully!");
+            if (animal) {
+                await setDoc(doc(FIREBASE_DB, "animals", animal.id), animalData);
+                alert("Animal updated successfully!");
+            } else {
+                await addDoc(collection(FIREBASE_DB, "animals"), animalData);
+                alert("Animal registered successfully!");
+            }
         } catch (e) {
-            alert("Error registering animal: ", e);
+            alert("Error registering or updating animal: ", e);
         }
     };
+    
 
     return (
         <View>
@@ -59,7 +67,7 @@ const DetailActivity = ({ route }: Props) => {
                 keyboardType="numeric"
             />
             <Button
-                title="Register"
+                title={animal ? "Update" : "Register"}
                 onPress={handleRegister}
             />
         </View>
