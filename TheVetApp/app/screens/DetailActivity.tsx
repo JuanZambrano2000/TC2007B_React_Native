@@ -6,7 +6,7 @@ const DetailActivity = () => {
         <View>
             <Text>Detail</Text>
         </View>
-    )
-}
+    );
+};
 
 export default DetailActivity;
