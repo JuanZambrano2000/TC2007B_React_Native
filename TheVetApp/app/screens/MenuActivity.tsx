@@ -39,7 +39,7 @@ const MenuActivity = ({navigation}: RouterProps) => {
                 renderItem={({item}) => (
                     <View>
                         <Text>{item.name}</Text>
-                        <Button title="Check Details" onPress={() => handleDetail(item)} />
+                        <Button title="Check Details" onPress={() => navigation.navigate('Detail', { animal: item })} />
                     </View>
                 )}
             />

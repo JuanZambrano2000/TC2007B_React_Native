@@ -2,11 +2,23 @@ import { View, Text, TextInput, Button } from "react-native";
 import React, { useState } from "react";
 import { FIREBASE_DB } from "../../FirebaseConfig";
 import { collection, addDoc } from "firebase/firestore";
+import { RouteProp } from "@react-navigation/native";
 
-const DetailActivity = () => {
-    const [name, setName] = useState("");
-    const [age, setAge] = useState("");
-    const [weight, setWeight] = useState("");
+type RootStackParamList = {
+    Detail: { animal?: { id: string; name: string; age: number; weight: number; } };
+};
+  
+type DetailScreenRouteProp = RouteProp<RootStackParamList, 'Detail'>;
+  
+interface Props {
+    route: DetailScreenRouteProp;
+}
+
+const DetailActivity = ({ route }: Props) => {
+    const animal = route.params?.animal;
+    const [name, setName] = useState(animal?.name || "");
+    const [age, setAge] = useState(animal?.age ? animal.age.toString() : "");
+    const [weight, setWeight] = useState(animal?.weight ? animal.weight.toString() : "");
 
     const handleRegister = async () => {
         if (isNaN(Number(age)) || isNaN(Number(weight))) {
